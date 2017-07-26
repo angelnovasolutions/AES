@@ -1,17 +1,25 @@
-package mx.com.nova.aes;
+package mx.com.beo.aes;
 
+import java.security.NoSuchAlgorithmException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import javax.crypto.Mac;
+
 import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.Mac;
 
-/**
- * RFC 2898 password derivation compatible with .NET Rfc2898DeriveBytes class. 
- * http://www.jmedved.com/2010/05/java-rfc2898derivebytes/
+
+/*
+ * Copyright (c)  2017 Nova Solution Systems S.A. de C.V.
+ * Mexico D.F.
+ * All rights reserved.
+ *
+ * THIS SOFTWARE IS  CONFIDENTIAL INFORMATION PROPIETARY OF NOVA SOLUTION SYSTEMS.
+ * THIS INFORMATION SHOULD NOT BE DISCLOSED AND MAY ONLY BE USED IN ACCORDANCE THE TERMS DETERMINED BY THE COMPANY ITSELF.
+ * THIS CLASS "RFC 2898" password derivation compatible with .NET Rfc2898DeriveBytes class.
  */
-public class Rfc2898DeriveBytes {
+public class Rfc2898DeriveBytesAES {
 
+	// Atributos
     private Mac _hmacSha1;
     private byte[] _salt;
     private int _iterationCount;
@@ -30,7 +38,7 @@ public class Rfc2898DeriveBytes {
      * @throws NoSuchAlgorithmException HmacSHA1 algorithm cannot be found.
      * @throws InvalidKeyException Salt must be 8 bytes or more. -or- Password cannot be null.
      */
-    public Rfc2898DeriveBytes(byte[] password, byte[] salt, int iterations) throws NoSuchAlgorithmException, InvalidKeyException {
+    public Rfc2898DeriveBytesAES(byte[] password, byte[] salt, int iterations) throws NoSuchAlgorithmException, InvalidKeyException {
     	if ((salt == null) || (salt.length < 8)) { throw new InvalidKeyException("Salt must be 8 bytes or more."); }
     	if (password == null) { throw new InvalidKeyException("Password cannot be null."); }
         this._salt = salt;
@@ -48,7 +56,7 @@ public class Rfc2898DeriveBytes {
      * @throws InvalidKeyException Salt must be 8 bytes or more. -or- Password cannot be null.
      * @throws UnsupportedEncodingException UTF-8 encoding is not supported. 
      */
-    public Rfc2898DeriveBytes(String password, byte[] salt, int iterations) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException  {
+    public Rfc2898DeriveBytesAES(String password, byte[] salt, int iterations) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException  {
     	this(password.getBytes("UTF8"), salt, iterations);
     }
 
@@ -60,7 +68,7 @@ public class Rfc2898DeriveBytes {
      * @throws InvalidKeyException Salt must be 8 bytes or more. -or- Password cannot be null.
      * @throws UnsupportedEncodingException UTF-8 encoding is not supported. 
      */
-    public Rfc2898DeriveBytes(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeyException, UnsupportedEncodingException {
+    public Rfc2898DeriveBytesAES(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeyException, UnsupportedEncodingException {
     	this(password, salt, 0x3e8);
     }
 
@@ -102,7 +110,10 @@ public class Rfc2898DeriveBytes {
         return result;
     }
 
-    
+    /**
+     * Returns a finalHash key from a password, salt and iteration count.
+     * @return Byte array.
+     */
     private byte[] func() {
         this._hmacSha1.update(this._salt, 0, this._salt.length);
         byte[] tempHash = this._hmacSha1.doFinal(getBytesFromInt(this._block));
@@ -124,6 +135,11 @@ public class Rfc2898DeriveBytes {
         return finalHash;
     }
 
+    /**
+     * Returns a Byte array key.
+     * @param a value of type
+     * @return Byte array.
+     */
     private static byte[] getBytesFromInt(int i) {
     	return new byte[] { (byte)(i >>> 24), (byte)(i >>> 16), (byte)(i >>> 8), (byte)i };
     }
