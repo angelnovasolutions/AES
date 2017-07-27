@@ -10,7 +10,6 @@ El proyecto consta de las clases principales para generar la cadena cifrada:
 Para ejecutar el método de encriptación, sera necesario realizar los siguientes pasos:
 - Descargar el proyecto del repositorio GIT.
 - Importar el proyecto tipo maven.
-- Compilar el proyecto con el comando:
+- Compilar el proyecto con el comando (al nivel del Pom.xml de la carpeta raíz del proyecto):
    - mvn package
-   Nota: Ejecutar este comando al nivel del Pom.xml de la carpeta raíz del proyecto.
 - Ejecutar el algoritmo de encriptación mediante la clase TestAES, asignando la cadena a encriptar a la variable stringOriginal.
