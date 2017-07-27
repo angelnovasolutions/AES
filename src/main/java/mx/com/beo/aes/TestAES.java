@@ -8,9 +8,10 @@ public class TestAES {
 		
 		try {
 			
-			String cadena = PBKDF2AES_test.encrypt("Hola Mundo");
+			String stringOriginal = "Hola Mundo";
+			String stringEncrypted = PBKDF2AES_test.encrypt(stringOriginal);
 			
-			System.out.println(cadena);
+			System.out.println(stringEncrypted);
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
